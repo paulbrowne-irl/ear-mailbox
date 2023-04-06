@@ -45,6 +45,9 @@ def walk_folder(data_frame,parent_folder,this_folder):
 
         else:
            
+            ## get multiple values
+
+
             new_row = pd.DataFrame( {'Parent':[parent_folder],
                        'Subject':[mail.Subject],
                        'To':[mail.To],
@@ -58,7 +61,6 @@ def walk_folder(data_frame,parent_folder,this_folder):
                        'SenderEmailAddress':[mail.SenderEmailAddress],
                        'attachments.Count':[mail.attachments.Count],
                        'Size':[mail.Size],
-                       'MessageClass':[""+str(mail.MessageClass)],
                        'ConversationIndex':[mail.ConversationIndex],
                        'EntryID':[mail.EntryID],
                        'Parent':[""+str(mail.Parent)],

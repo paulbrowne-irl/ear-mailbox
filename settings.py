@@ -14,7 +14,7 @@ INBOX_NAME="Business Response"
 
 #Maximum number of emails that we will process
 #Set to -1 if you want to process the entire folder
-BREAK_AFTER_X_MAILS=100 
+BREAK_AFTER_X_MAILS=10
 
 #####
 
