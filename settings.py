@@ -1,15 +1,23 @@
 # Settings that configure how the script behaves
+# The most common ones to edit are below
 
-
-
-#Constants and settings
-LOG_FILE="ear.log"
+#Where we will output the results
+# "." is the project home directory
 WORKING_DIRECTORY="."
-EMAIL_REPORT_FILE="email-report.xlsx"
-EXCEL_TEMPLATE= "email-report-template.xlsx"
 
+#The name that we will export our data under
+#Any existing file of this name will be deleted
+EMAIL_REPORT_FILE="email-report.xlsx"
+
+# The Name of the shared outlook inbox we want to walk 
 INBOX_NAME="Business Response"
 
-BREAK_AFTER_X_FIELDS=10000 #max size of dataframe
+#Maximum number of emails that we will process
+#Set to -1 if you want to process the entire folder
+BREAK_AFTER_X_MAILS=100 
 
+#####
+
+# Most of the time you will not need to edit these settings
+LOG_FILE="ear.log"
 

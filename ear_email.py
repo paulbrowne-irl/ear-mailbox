@@ -1,9 +1,8 @@
 import logging
-import os.path
-import shutil
+#import os.path
+#import shutil
 from pandas.core.frame import DataFrame
 
-import win32com.client
 import pandas as pd
 
 from openpyxl import Workbook
@@ -11,15 +10,15 @@ from openpyxl import load_workbook
 
 import settings
 
-## Module level variables
-
+counter=0
 
 '''
 Walk folder recursively
 '''
 def walk_folder(data_frame,parent_folder,this_folder):
     
-
+    global counter
+    
     # Walk and print folders
     for folder in this_folder.Folders:
         print (folder.Name)
@@ -32,9 +31,11 @@ def walk_folder(data_frame,parent_folder,this_folder):
  
     for mail in folderItems:
 
-        #for debugging
-        print("DF size:"+str(data_frame.size))
-        if(data_frame.size>settings.BREAK_AFTER_X_FIELDS):
+        #Increment the counter and test if we need to break
+        counter+=1
+
+        print("Counter:"+str(counter))
+        if(settings.BREAK_AFTER_X_MAILS>0 and counter>settings.BREAK_AFTER_X_MAILS):
             print("Breaking ...")
             return data_frame
 
@@ -44,37 +45,35 @@ def walk_folder(data_frame,parent_folder,this_folder):
 
         else:
            
-            new_row = {'Parent':parent_folder,
-                       'Subject':mail.Subject,
-                       'To':mail.To,
-                       'CC':mail.CC,
-                       'Recipients':""+str(mail.Recipients),
-                       'RecievedByName':mail.ReceivedByName,
-                       'ConversationTopic':mail.ConversationTopic,
-                       'ConversationID':mail.ConversationID,
-                       'Sender':mail.Sender,
-                       'SenderName':mail.SenderName,
-                       'SenderEmailAddress':mail.SenderEmailAddress,
-                       'attachments.Count':mail.attachments.Count,
-                       'Size':mail.Size,
-                       'MessageClass':""+str(mail.MessageClass),
-                       'ConversationIndex':mail.ConversationIndex,
-                       'EntryID':mail.EntryID,
-                       'Parent':""+str(mail.Parent),
-                       'CreationTime':""+str(mail.CreationTime),
-                       'ReceivedTime':""+str(mail.ReceivedTime),
-                       'LastModificationTime':""+str(mail.LastModificationTime),
-                       'Body':mail.Body,
-                       'Categories':mail.Categories
+            new_row = pd.DataFrame( {'Parent':[parent_folder],
+                       'Subject':[mail.Subject],
+                       'To':[mail.To],
+                       'CC':[mail.CC],
+                       'Recipients':[""+str(mail.Recipients)],
+                       'RecievedByName':[mail.ReceivedByName],
+                       'ConversationTopic':[mail.ConversationTopic],
+                       'ConversationID':[mail.ConversationID],
+                       'Sender':[mail.Sender],
+                       'SenderName':[mail.SenderName],
+                       'SenderEmailAddress':[mail.SenderEmailAddress],
+                       'attachments.Count':[mail.attachments.Count],
+                       'Size':[mail.Size],
+                       'MessageClass':[""+str(mail.MessageClass)],
+                       'ConversationIndex':[mail.ConversationIndex],
+                       'EntryID':[mail.EntryID],
+                       'Parent':[""+str(mail.Parent)],
+                       'CreationTime':[""+str(mail.CreationTime)],
+                       'ReceivedTime':[""+str(mail.ReceivedTime)],
+                       'LastModificationTime':[""+str(mail.LastModificationTime)],
+                       'Categories':[mail.Categories],
+                       'Body':[mail.Body]
                        
-                     }
+                       
+                     })
             
             data_frame= data_frame.append(new_row,ignore_index=True)
             
-           # data_frame.append(new_row, )
-
-
-            #
+            
             #HTMLBody
             #RTFBody
 

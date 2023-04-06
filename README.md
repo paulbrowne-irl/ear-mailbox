@@ -26,10 +26,11 @@ The script generates a report ...
 
 ## Safety first
 
-Safety first, we treat the Outlook as the 'gold' copy. 
+Safety first, we treat the Outlook as the 'gold' copy.
 
 * We never delete any data from outlook, and can always (re)create reports from this data.
-* We never send any email - any suggestions are saved as drafts, or tagged emails
+* We never send any email - any suggestions are saved as drafts, or tagged emails.
+* Everything is 'Human in the loop' - a real person needs to decide to send email
 
 ### Synchronisation process
 
@@ -39,10 +40,7 @@ Safety first, we treat the Outlook as the 'gold' copy.
 * Script makes a backup copy of any previous Excel file. e.g. copy ``task-data.xls`` to ``1task-data.xls``, etc
 * Script makes a template from the previous Excel sheet (``task-data.xls``) - deletes out all data except the first row, keeping  formatting, filters etc.
 * For all Outlook Tasks, the Script outputs selected fields to this Excel file.
-* Following the 'Outlook is Gold' approach, this script
-  * Does not delete in Outlook any task deleted in Excel - since we could mistakenly delete a new Outlook task, created after the Excel List was exported.
-  * Does not add to Outlook, and task added to Excel - since we could mistakenly add back a task we decided to delete in Outlook
-  * Script only updates from Excel into Outlook if the Modified Column in the Excel spreadsheet has been set to Y.
+
 
 ## How to Install and Use
 

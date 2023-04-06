@@ -18,10 +18,12 @@ EAR - Email AI Reader
 Support for managing an outlook inbox - this could be a personal, or share one
 '''
 
-
 # simple code to run from command line
 if __name__ == '__main__':
     
+    ## Module level variables
+    counter=0
+
     #Handle TO Outlook, Logs and other objects we will need later
     OUTLOOK = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
 
