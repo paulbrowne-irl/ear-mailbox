@@ -1,6 +1,5 @@
 import logging
-#import os.path
-#import shutil
+import traceback
 from pandas.core.frame import DataFrame
 
 import pandas as pd
@@ -13,9 +12,29 @@ import settings
 counter=0
 
 '''
+Save Dataframe to disk
+'''
+def _save_email(data_frame):
+
+    try:
+        with pd.ExcelWriter(settings.EMAIL_REPORT_FILE,mode='a',if_sheet_exists="replace") as writer:  
+            data_frame.to_excel(writer, sheet_name='Sheet1')
+            print("Flushed Cache to disk")
+            
+    except Exception as err:
+        
+        print ("Error when saving data")
+        print (print(traceback.format_exc()))
+        print ("\n Was attempting to save")
+        print(data_frame.tail(settings.FLUSH_AFTER_X_MAILS))
+
+    return data_frame
+
+
+'''
 Walk folder recursively
 '''
-def walk_folder(data_frame,parent_folder,this_folder):
+def _walk_folder(data_frame,parent_folder,this_folder):
     
     global counter
     
@@ -24,7 +43,7 @@ def walk_folder(data_frame,parent_folder,this_folder):
         print (folder.Name)
         
         #Do recursive call to walk sub folder
-        data_frame = walk_folder(data_frame,parent_folder+"::"+folder.Name,folder)
+        data_frame = _walk_folder(data_frame,parent_folder+"::"+folder.Name,folder)
 
     #Print folder items
     folderItems = this_folder.Items
@@ -38,6 +57,10 @@ def walk_folder(data_frame,parent_folder,this_folder):
         if(settings.BREAK_AFTER_X_MAILS>0 and counter>settings.BREAK_AFTER_X_MAILS):
             print("Breaking ...")
             return data_frame
+        
+        #do we need to flush cache to disk?
+        if(counter%settings.FLUSH_AFTER_X_MAILS==0):
+            data_frame = _save_email(data_frame)
 
         #Filter on mail items only
         if(mail.Class!=43):
@@ -49,28 +72,27 @@ def walk_folder(data_frame,parent_folder,this_folder):
 
 
             new_row = pd.DataFrame( {'Parent':[parent_folder],
-                       'Subject':[mail.Subject],
-                       'To':[mail.To],
-                       'CC':[mail.CC],
+                       'Subject':[""+str(mail.Subject)],
+                       'To':[""+str(mail.To)],
+                       'CC':[""+str(mail.CC)],
                        'Recipients':[""+str(mail.Recipients)],
-                       'RecievedByName':[mail.ReceivedByName],
-                       'ConversationTopic':[mail.ConversationTopic],
-                       'ConversationID':[mail.ConversationID],
-                       'Sender':[mail.Sender],
-                       'SenderName':[mail.SenderName],
-                       'SenderEmailAddress':[mail.SenderEmailAddress],
-                       'attachments.Count':[mail.attachments.Count],
-                       'Size':[mail.Size],
-                       'ConversationIndex':[mail.ConversationIndex],
-                       'EntryID':[mail.EntryID],
+                       'RecievedByName':[""+str(mail.ReceivedByName)],
+                       'ConversationTopic':[""+str(mail.ConversationTopic)],
+                       'ConversationID':[""+str(mail.ConversationID)],
+                       'Sender':[""+str(mail.Sender)],
+                       'SenderName':[""+str(mail.SenderName)],
+                       'SenderEmailAddress':[""+str(mail.SenderEmailAddress)],
+                       'attachments.Count':[""+str(mail.attachments.Count)],
+                       'Size':[""+str(mail.Size)],
+                       'ConversationIndex':[""+str(mail.ConversationIndex)],
+                       'EntryID':[""+str(mail.EntryID)],
                        'Parent':[""+str(mail.Parent)],
                        'CreationTime':[""+str(mail.CreationTime)],
                        'ReceivedTime':[""+str(mail.ReceivedTime)],
                        'LastModificationTime':[""+str(mail.LastModificationTime)],
-                       'Categories':[mail.Categories],
-                       'Body':[mail.Body]
-                       
-                       
+                       'Categories':[""+str(mail.Categories)],
+                       'Body':[""+str(mail.Body)]
+
                      })
             
             data_frame= data_frame.append(new_row,ignore_index=True)
@@ -95,19 +117,21 @@ def export_email_to_excel(OUTLOOK):
     print("Getting handle to outlook");
     root_folder = OUTLOOK.Folders.Item(settings.INBOX_NAME)
 
-    #Create data frame
+    #Create data frame and save to disk to wipe any previous values
     df = pd.DataFrame()
+    df.to_excel(settings.EMAIL_REPORT_FILE)
+
 
     #Walk folders
     print("About to walk folder");
-    new_data = walk_folder(df,"",root_folder)
+    new_data = _walk_folder(df,"",root_folder)
 
     #Print a sample of the data
     print(new_data)
 
-    
-    #Save the new data
-    new_data.to_excel(settings.EMAIL_REPORT_FILE)
+    #Save the final batch of new data
+    _save_email(df)
+
 
 
 
