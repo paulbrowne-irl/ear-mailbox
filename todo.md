@@ -8,11 +8,23 @@
 
 ## Next
 
-* Store in Dataframe
+* Store in Dataframe and flush?
+* tie in analysits
+
+## play 
+
+* named entities
 
 
-## Problems I want to solve
+## Now problems I want to solve
 
+* Misfiled emails
+* unanswered emails
+* POS tagging (counties)
+
+
+## next Problems I want to solve
+* get list of attached filenames
 * Emails without a response
 * Emails filed in the wrong folder
 * link email in chain (and recognize text)
