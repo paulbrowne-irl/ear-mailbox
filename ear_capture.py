@@ -4,6 +4,9 @@ from pandas.core.frame import DataFrame
 
 import pandas as pd
 
+import win32com.client
+import os.path
+
 from openpyxl import Workbook
 from openpyxl import load_workbook
 
@@ -16,10 +19,12 @@ Save Dataframe to disk
 '''
 def _save_email(data_frame):
 
+    print("Saving Dataframe size:"+str(data_frame.size))
     try:
-        with pd.ExcelWriter(settings.EMAIL_REPORT_FILE,mode='a',if_sheet_exists="replace") as writer:  
+        with pd.ExcelWriter(settings.EMAIL_DATA_DUMP,mode='a',if_sheet_exists="replace") as writer:  
             data_frame.to_excel(writer, sheet_name='Sheet1')
             print("Flushed Cache to disk")
+        
             
     except Exception as err:
         
@@ -119,7 +124,7 @@ def export_email_to_excel(OUTLOOK):
 
     #Create data frame and save to disk to wipe any previous values
     df = pd.DataFrame()
-    df.to_excel(settings.EMAIL_REPORT_FILE)
+    df.to_excel(settings.EMAIL_DATA_DUMP)
 
 
     #Walk folders
@@ -130,7 +135,28 @@ def export_email_to_excel(OUTLOOK):
     print(new_data)
 
     #Save the final batch of new data
-    _save_email(df)
+    _save_email(new_data)
+
+# simple code to run from command line
+if __name__ == '__main__':
+    
+    ## Module level variables
+    counter=0
+
+    #Handle TO Outlook, Logs and other objects we will need later
+    OUTLOOK = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
+
+    #Set the Logging level. Change it to logging.INFO is you want just the important info
+    logging.basicConfig(filename=settings.LOG_FILE, encoding='utf-8', level=logging.DEBUG)
+
+    #Set the working directory
+    os.chdir(settings.WORKING_DIRECTORY)
+    print ("\nSet working directory to: "+os.getcwd())
+
+    # Carry out the steps to sync excel adn outlook
+    # ear_excel.clear_excel_output_file()
+    export_email_to_excel(OUTLOOK)
+    
 
 
 

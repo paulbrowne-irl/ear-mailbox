@@ -7,14 +7,14 @@ WORKING_DIRECTORY="."
 
 # The name that we will export our data under
 # Any existing file of this name will be deleted
-EMAIL_REPORT_FILE="email-report.xlsx"
+EMAIL_DATA_DUMP="email-data.xlsx"
 
 # The Name of the shared outlook inbox we want to walk 
 INBOX_NAME="Business Response"
 
 # Maximum number of emails that we will process
 # Set to -1 if you want to process the entire folder
-BREAK_AFTER_X_MAILS=1000
+BREAK_AFTER_X_MAILS=-1
 
 # Flush the cache to disk after X emails then continue
 # It means we still have (most) information even if there is an error
