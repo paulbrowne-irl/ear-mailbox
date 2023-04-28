@@ -8,7 +8,7 @@
 
 ## Next
 
-* Store in Dataframe and flush?
+* Store in Dataframe and flush? 
 * tie in analysits
 
 ## play 
@@ -16,11 +16,16 @@
 * named entities
 
 
+
 ## Now problems I want to solve
 
 * Misfiled emails
 * unanswered emails
 * POS tagging (counties)
+
+## Tidy
+
+* failing when trying to output non email tasks
 
 
 ## next Problems I want to solve

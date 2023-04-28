@@ -7,7 +7,7 @@ WORKING_DIRECTORY="."
 
 # The name that we will export our data under
 # Any existing file of this name will be deleted
-EMAIL_DATA_DUMP="email-data.xlsx"
+EMAIL_DATA_DUMP=".\\data\\data-emails.xlsx"
 
 # The Name of the shared outlook inbox we want to walk 
 INBOX_NAME="Business Response"

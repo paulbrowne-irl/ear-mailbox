@@ -4,3 +4,5 @@ task.log
 email-report.xlsx
 __pycache__/
 ear.log
+output*.*
+data*.*
