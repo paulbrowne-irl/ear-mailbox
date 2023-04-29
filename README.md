@@ -42,7 +42,7 @@ Safety first, we treat the Outlook as the 'gold' copy.
 * For all Outlook Tasks, the Script outputs selected fields to this Excel file.
 
 
-## How to Install and Use
+## Getting Starter
 
 1. Make sure you have Outlook on your machine -(doh!)
 1. [Install Python](https://www.python.org/downloads/) on your machine.
@@ -50,7 +50,7 @@ Safety first, we treat the Outlook as the 'gold' copy.
 1. (Update) Download the two files you need into a directory, listed at the top of the page
     * ``outlook.py`` - the actual sync script
     * ``task-data.xlsx`` - the Excel file that syncs with outlook
-1. Run the script in a terminal using a command similar to ``python ear.py``
+1. Run the script in a terminal using a command similar to ``python capture.py`` (Note ear.bat will create directories if needed)
    * By Default - the script will look for the templates and outputs in the same directory as it is run. Log files and backups will also by placed in this directory.
    * ear.bat is there for convenience.
 

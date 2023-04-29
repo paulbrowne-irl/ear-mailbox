@@ -6,3 +6,5 @@ __pycache__/
 ear.log
 output*.*
 data*.*
+output/first_review.png
+output/folders.xlsx

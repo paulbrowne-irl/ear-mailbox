@@ -8,14 +8,12 @@
 
 ## Next
 
-* Store in Dataframe and flush? 
-* tie in analysits
+* Try Sentiment analysis
 
-## play 
+## play
 
 * named entities
-
-
+Topic analysis
 
 ## Now problems I want to solve
 
