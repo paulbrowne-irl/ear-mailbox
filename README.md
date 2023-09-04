@@ -50,9 +50,9 @@ Safety first, we treat the Outlook as the 'gold' copy.
 1. (Update) Download the two files you need into a directory, listed at the top of the page
     * ``outlook.py`` - the actual sync script
     * ``task-data.xlsx`` - the Excel file that syncs with outlook
-1. Run the script in a terminal using a command similar to ``python capture.py`` (Note ear.bat will create directories if needed)
+1. Run the script in a terminal using a command similar to ``python capture.py`` (Note capture.bat will create directories if needed)
    * By Default - the script will look for the templates and outputs in the same directory as it is run. Log files and backups will also by placed in this directory.
-   * ear.bat is there for convenience.
+   * capture.bat is there for convenience.
 
 ## Modifying the Script
 
