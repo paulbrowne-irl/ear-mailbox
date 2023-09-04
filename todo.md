@@ -6,8 +6,18 @@
 * email draft suggestions (no install by other users)
 * add powerapp trigger
 
-## Next
+## From "Unlocking Text Data with deep learning (Apress)
 
+* Tidy these
+**p38 convert data to lowercase
+**p41 Remove punc
+**p43 Remove stop words
+**p47 ??tokenize text
+**Opt: p47/50 Spelling/standardizing/stemming/lemmetizing
+
+
+## Next
+* try group by https://realpython.com/pandas-groupby/
 * Try Sentiment analysis
 
 ## play

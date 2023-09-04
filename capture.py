@@ -55,53 +55,57 @@ def _walk_folder(data_frame,parent_folder,this_folder):
  
     for mail in folderItems:
 
-        #Increment the counter and test if we need to break
-        counter+=1
+        try:
+            #Increment the counter and test if we need to break
+            counter+=1
 
-        print("Counter:"+str(counter))
-        if(settings.BREAK_AFTER_X_MAILS>0 and counter>settings.BREAK_AFTER_X_MAILS):
-            print("Breaking ...")
-            return data_frame
-        
-        #do we need to flush cache to disk?
-        if(counter%settings.FLUSH_AFTER_X_MAILS==0):
-            data_frame = _save_email(data_frame)
-
-        #Filter on mail items only
-        if(mail.Class!=43):
-            print("Skipping item type:"+str(mail.Class))
-
-        else:
-           
-            ## get multiple values
-
-
-            new_row = pd.DataFrame( {'Parent':[parent_folder],
-                       'Subject':[""+str(mail.Subject)],
-                       'To':[""+str(mail.To)],
-                       'CC':[""+str(mail.CC)],
-                       'Recipients':[""+str(mail.Recipients)],
-                       'RecievedByName':[""+str(mail.ReceivedByName)],
-                       'ConversationTopic':[""+str(mail.ConversationTopic)],
-                       'ConversationID':[""+str(mail.ConversationID)],
-                       'Sender':[""+str(mail.Sender)],
-                       'SenderName':[""+str(mail.SenderName)],
-                       'SenderEmailAddress':[""+str(mail.SenderEmailAddress)],
-                       'attachments.Count':[""+str(mail.attachments.Count)],
-                       'Size':[""+str(mail.Size)],
-                       'ConversationIndex':[""+str(mail.ConversationIndex)],
-                       'EntryID':[""+str(mail.EntryID)],
-                       'Parent':[""+str(mail.Parent)],
-                       'CreationTime':[""+str(mail.CreationTime)],
-                       'ReceivedTime':[""+str(mail.ReceivedTime)],
-                       'LastModificationTime':[""+str(mail.LastModificationTime)],
-                       'Categories':[""+str(mail.Categories)],
-                       'Body':[""+str(mail.Body)]
-
-                     })
+            print("Counter:"+str(counter))
+            if(settings.BREAK_AFTER_X_MAILS>0 and counter>settings.BREAK_AFTER_X_MAILS):
+                print("Breaking ...")
+                return data_frame
             
-            data_frame= data_frame.append(new_row,ignore_index=True)
+            #do we need to flush cache to disk?
+            if(counter%settings.FLUSH_AFTER_X_MAILS==0):
+                data_frame = _save_email(data_frame)
+
+            #Filter on mail items only
+            if(mail.Class!=43):
+                print("Skipping item type:"+str(mail.Class))
+
+            else:
             
+                ## get multiple values
+
+
+                new_row = pd.DataFrame( {'Parent':[parent_folder],
+                        'Subject':[""+str(mail.Subject)],
+                        'To':[""+str(mail.To)],
+                        'CC':[""+str(mail.CC)],
+                        'Recipients':[""+str(mail.Recipients)],
+                        'RecievedByName':[""+str(mail.ReceivedByName)],
+                        'ConversationTopic':[""+str(mail.ConversationTopic)],
+                        'ConversationID':[""+str(mail.ConversationID)],
+                        'Sender':[""+str(mail.Sender)],
+                        'SenderName':[""+str(mail.SenderName)],
+                        'SenderEmailAddress':[""+str(mail.SenderEmailAddress)],
+                        'attachments.Count':[""+str(mail.attachments.Count)],
+                        'Size':[""+str(mail.Size)],
+                        'ConversationIndex':[""+str(mail.ConversationIndex)],
+                        'EntryID':[""+str(mail.EntryID)],
+                        'Parent':[""+str(mail.Parent)],
+                        'CreationTime':[""+str(mail.CreationTime)],
+                        'ReceivedTime':[""+str(mail.ReceivedTime)],
+                        'LastModificationTime':[""+str(mail.LastModificationTime)],
+                        'Categories':[""+str(mail.Categories)],
+                        'Body':[""+str(mail.Body)]
+
+                        })
+                
+                data_frame= data_frame.append(new_row,ignore_index=True)
+        except Exception as e:
+            print("error when processing item - will continue")
+            print(e)
+
             
             #HTMLBody
             #RTFBody
@@ -131,11 +135,14 @@ def export_email_to_excel(OUTLOOK):
     print("About to walk folder");
     new_data = _walk_folder(df,"",root_folder)
 
-    #Print a sample of the data
-    print(new_data)
-
     #Save the final batch of new data
     _save_email(new_data)
+
+    #Print a sample of the data
+    print("complete - sample data")
+    print(new_data)
+
+
 
 # simple code to run from command line
 if __name__ == '__main__':

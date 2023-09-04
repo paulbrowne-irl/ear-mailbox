@@ -32,36 +32,54 @@ import matplotlib.pyplot as plt
 import settings
 
 
+
+
 '''
 Do the Actual analysis
 '''
-def _do_analysis():
+def _analyse_client_emails(my_row):
+    print(my_row)
+
+    #email_filtered=emails.loc[emails["Parent"]=='ANAIAHHEALTHCARE']
+    #print(email_filtered.head())
+
+
+            #filter main emails and loop
+
+            #Clean up data
+                #TODO punctuation
+                #TODO remove stop words
+
+            # calc sentiment for this email
+
+            # add to bag of
+
+        # calc sentiment for this folder
+
+        # save sentiment for this folder
+
+def _loop_through_clients():
 
     # Read data into papers
     emails = pd.read_excel(settings.EMAIL_DATA_DUMP)
 
+    #Group and save our folder names
     email_subjects = emails.groupby("Parent")["Parent"].count()
-    email_subjects.to_excel('.\\output\\folders.xlsx')
-    
+    #email_subjects.to_excel('.\\output\\folders.xlsx')
 
-    for state, frame in emails:
-     print(f"First 2 entries for {state!r}")
-     print("------------------------")
-     print(frame.head(2), end="\n\n")
+    #print(type(email_subjects))
+    counter =0
 
-'''
-    email_body= emails['Body']
+    #Loop over folder names and analyse each one
+    for ind in email_subjects:
+        print(str(counter)+" : "+str(ind))
+        counter+=1
 
+        # client_sentiment = [_analyse_client_emails(x) for x in email_subjects["Parent"]]
 
-    dir(email_body)
-
-    # Loop through the first four
-    for row_num, row in enumerate(email_body):
-        print (row)
-        if row_num >4 : break
-'''
+        
 
 # simple code to run from command line
 if __name__ == '__main__':
 
-    _do_analysis()
+    _loop_through_clients()
