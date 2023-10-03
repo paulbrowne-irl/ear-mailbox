@@ -89,7 +89,7 @@ def _walk_folder(data_frame,parent_folder,this_folder):
 
                         'Date':[mail.CreationTime.date()],
                         'interactions':1,
-                        'complexity': [(mail.attachments.Count*1000)+mail.Size+len(str(mail.Body))]
+                        'complexity': [(mail.attachments.Count*1000)+mail.Size+len(str(mail.Body))/30000]
                         })
                 
                 data_frame= data_frame.append(new_row,ignore_index=True)
@@ -148,11 +148,14 @@ if __name__ == '__main__':
     OUTLOOK = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
 
     #Set the Logging level. Change it to logging.INFO is you want just the important info
-    logging.basicConfig(filename=settings.LOG_FILE, encoding='utf-8', level=logging.DEBUG)
-    rootLogger = logging.getLogger()
-    consoleHandler = logging.StreamHandler()
-    consoleHandler.setFormatter(logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s"))
-    rootLogger.addHandler(consoleHandler)
+    #logging.basicConfig(filename=settings.LOG_FILE, encoding='utf-8', level=logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG)
+    
+    
+    #rootLogger = logging.getLogger()
+    #consoleHandler = logging.StreamHandler()
+    #consoleHandler.setFormatter(logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s"))
+    #rootLogger.addHandler(consoleHandler)
 
     #Set the working directory
     os.chdir(settings.WORKING_DIRECTORY)
