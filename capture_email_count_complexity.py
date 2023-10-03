@@ -29,8 +29,8 @@ def _save_summary_info(data_frame):
 
     logging.info("Saving Dataframe size:"+str(data_frame.size))
     try:
-        with pd.ExcelWriter(settings.EMAIL_DATA_DUMP,mode='a',if_sheet_exists="replace") as writer:  
-            data_frame.to_excel(writer, sheet_name='Sheet1')
+        with pd.ExcelWriter(settings.EMAIL_SUMMARY,mode='a',if_sheet_exists="replace") as writer:  
+            data_frame.to_excel(writer, sheet_name='snapshot',index=False)
             logging.info("Flushed Cache to disk")
         
             
@@ -86,31 +86,16 @@ def _walk_folder(data_frame,parent_folder,this_folder):
 
 
                 new_row = pd.DataFrame( {
-                        #'Parent':[parent_folder],
-                        #'Subject':[""+str(mail.Subject)],
-                        #'To':[""+str(mail.To)],
-                        #'CC':[""+str(mail.CC)],
-                        #'Recipients':[""+str(mail.Recipients)],
-                        #'RecievedByName':[""+str(mail.ReceivedByName)],
-                        #'ConversationTopic':[""+str(mail.ConversationTopic)],
-                        #'ConversationID':[""+str(mail.ConversationID)],
-                        #'Sender':[""+str(mail.Sender)],
-                        #'SenderName':[""+str(mail.SenderName)],
-                        #'SenderEmailAddress':[""+str(mail.SenderEmailAddress)],
-                        'email.count':1,
-                        'attachments.Count':[""+str(mail.attachments.Count)],
-                        'Size':[""+str(mail.Size)],
-                        #'ConversationIndex':[""+str(mail.ConversationIndex)],
-                        #'EntryID':[""+str(mail.EntryID)],
-                        #'Parent':[""+str(mail.Parent)],
-                        'CreationTime':[""+str(mail.CreationTime)],
-                        'ReceivedTime':[""+str(mail.ReceivedTime)],
-                        'LastModificationTime':[""+str(mail.LastModificationTime)],
-                        # 'Categories':[""+str(mail.Categories)],
-                        'Body':[""+len(str(mail.Body))]
+
+                        'Date':[mail.CreationTime.date()],
+                        'interactions':1,
+                        'complexity': [(mail.attachments.Count*1000)+mail.Size+len(str(mail.Body))]
                         })
                 
                 data_frame= data_frame.append(new_row,ignore_index=True)
+                #pd.concat([data_frame,new_row])
+                logging.info(data_frame.size)
+
         except Exception as e:
             logging.error("error when processing item - will continue")
             logging.error(e)
@@ -137,7 +122,7 @@ def capture_email_count_complexity(OUTLOOK):
 
     #Create data frame and save to disk to wipe any previous values
     df = pd.DataFrame()
-    df.to_excel(settings.EMAIL_SUMMARY)
+    df.to_excel(settings.EMAIL_SUMMARY,sheet_name='snapshot',index=False)
 
 
     #Walk folders
@@ -164,6 +149,10 @@ if __name__ == '__main__':
 
     #Set the Logging level. Change it to logging.INFO is you want just the important info
     logging.basicConfig(filename=settings.LOG_FILE, encoding='utf-8', level=logging.DEBUG)
+    rootLogger = logging.getLogger()
+    consoleHandler = logging.StreamHandler()
+    consoleHandler.setFormatter(logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s"))
+    rootLogger.addHandler(consoleHandler)
 
     #Set the working directory
     os.chdir(settings.WORKING_DIRECTORY)
