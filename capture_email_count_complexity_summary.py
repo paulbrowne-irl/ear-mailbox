@@ -63,43 +63,45 @@ def _walk_folder(data_frame,parent_folder,this_folder):
  
     for mail in folderItems:
 
-        try:
-            #Increment the counter and test if we need to break
-            counter+=1
+        '''try:'''
+        
+        #Increment the counter and test if we need to break
+        counter+=1
 
-            logging.info("Counter:"+str(counter))
-            if(settings.BREAK_AFTER_X_MAILS>0 and counter>settings.BREAK_AFTER_X_MAILS):
-                logging.info("Breaking ...")
-                return data_frame
+        logging.info("Counter:"+str(counter))
+        if(settings.BREAK_AFTER_X_MAILS>0 and counter>settings.BREAK_AFTER_X_MAILS):
+            logging.info("Breaking ...")
+            return data_frame
+        
+        #do we need to flush cache to disk?
+        if(counter%settings.FLUSH_AFTER_X_MAILS==0):
+            data_frame = _save_summary_info(data_frame)
+
+        #Filter on mail items only
+        if(mail.Class!=43):
+            logging.info("Skipping item type:"+str(mail.Class))
+
+        else:
+        
+            ## get multiple values
+
+
+            new_row = pd.DataFrame( {
+
+                    'Date':[mail.CreationTime.date()],
+                    'interactions':1,
+                    'complexity': [(mail.attachments.Count*1000)+mail.Size+len(str(mail.Body))/30000]
+                    })
             
-            #do we need to flush cache to disk?
-            if(counter%settings.FLUSH_AFTER_X_MAILS==0):
-                data_frame = _save_summary_info(data_frame)
+            #data_frame= data_frame.append(new_row,ignore_index=True)
+            data_frame = pd.concat([data_frame,new_row])
+            logging.info(data_frame.size)
 
-            #Filter on mail items only
-            if(mail.Class!=43):
-                logging.info("Skipping item type:"+str(mail.Class))
-
-            else:
-            
-                ## get multiple values
-
-
-                new_row = pd.DataFrame( {
-
-                        'Date':[mail.CreationTime.date()],
-                        'interactions':1,
-                        'complexity': [(mail.attachments.Count*1000)+mail.Size+len(str(mail.Body))/30000]
-                        })
-                
-                data_frame= data_frame.append(new_row,ignore_index=True)
-                #pd.concat([data_frame,new_row])
-                logging.info(data_frame.size)
-
-        except Exception as e:
+    '''
+    except Exception as e:
             logging.error("error when processing item - will continue")
             logging.error(e)
-
+    '''
             
             #HTMLBody
             #RTFBody
