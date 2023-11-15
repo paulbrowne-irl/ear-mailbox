@@ -8,11 +8,11 @@ WORKING_DIRECTORY="."
 # The name that we will export our data under
 # Any existing file of this name will be deleted
 EMAIL_DATA_DUMP=".\\data\\data-emails.xlsx"
-EMAIL_SUMMARY=".\\data\\data-email-summary-SEF.xlsx"
+EMAIL_SUMMARY=".\\data\\data-email-summary.xlsx"
 
 # The Name of the shared outlook inbox we want to walk 
-#INBOX_NAME="Business Response"
-INBOX_NAME="GA-BSF"
+INBOX_NAME="Business Response"
+#INBOX_NAME="GA-BSF"
 
 
 # Maximum number of emails that we will process
