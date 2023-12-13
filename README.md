@@ -4,25 +4,11 @@ Scripts to monitor and manage a common email box, making suggestions to support 
 
 ## Why would I want to do this?
 
-Many organisations use a simple Outlook mailbox to cordinate client responses.
-
-Outlook allows you to do this ... but ...
-
-Since .... it allows you to do the following things:
+Many organisations use a simple Outlook mailbox to cordinate client responses, with convention and (Word) documents to guide how they respond. These scripts in this folder help support this process, for example by:
 
 1. Report likely things that go wrong
-1. Allows you to backup Tasks if you accidentally delete them in Outlook.
-1. By saving to OneDrive, Google Drive or similar, it makes one tasklist available across multiple devices.
-
-## What this Python Script does
-
-Given a typical Outlook share folder like this:
-
-![Outlook Tasks Screenshot](images/outlook-tasks.png)
-
-The script generates a report ...
-
-![Excel Tasks Screenshot](images/excel-tasks.png)
+1. Allows you to backup mail if you accidentally delete them in Outlook.
+1. Generate reports on volume and complexity of emails
 
 ## Safety first
 
