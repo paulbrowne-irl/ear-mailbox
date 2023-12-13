@@ -6,7 +6,8 @@ for foldername, subfolders, filenames in os.walk(path):
     for filename in filenames:
         try:
             filesize = math.floor(os.path.getsize(os.path.join(foldername, filename))/1048576)
-            if filesize>300:
-                print(foldername + '\\' + filename+ " size:"+str(filesize)+"mb")
+            if filesize>1:
+                print(foldername + ' , ' + filename+ " , "+str(filesize))
         except FileNotFoundError:
-            print("Ignoring too long file:"+filename)
+            pass
+            #print("Ignoring too long file:"+filename)
