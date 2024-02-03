@@ -21,7 +21,7 @@ BREAK_AFTER_X_MAILS=-1
 
 # Flush the cache to disk after X emails then continue
 # It means we still have (most) information even if there is an error
-FLUSH_AFTER_X_MAILS=1000
+FLUSH_AFTER_X_MAILS=100
 
 #####
 
