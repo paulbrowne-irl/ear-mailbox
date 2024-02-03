@@ -9,6 +9,7 @@ import os.path
 
 from openpyxl import Workbook
 from openpyxl import load_workbook
+from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE
 
 import settings
 
@@ -97,7 +98,7 @@ def _walk_folder(data_frame,parent_folder,this_folder):
                         'ReceivedTime':[""+str(mail.ReceivedTime)],
                         'LastModificationTime':[""+str(mail.LastModificationTime)],
                         'Categories':[""+str(mail.Categories)],
-                        'Body':[""+str(mail.Body)]
+                        'Body':[""+ILLEGAL_CHARACTERS_RE.sub(r'',str(mail.Body))]       #try to resolve erros
 
                         })
                 

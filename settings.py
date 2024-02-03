@@ -17,7 +17,7 @@ INBOX_NAME="Business Response"
 
 # Maximum number of emails that we will process
 # Set to -1 if you want to process the entire folder
-BREAK_AFTER_X_MAILS=-1
+BREAK_AFTER_X_MAILS=100
 
 # Flush the cache to disk after X emails then continue
 # It means we still have (most) information even if there is an error
